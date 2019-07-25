@@ -4,10 +4,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case BUY_ITEM:
       console.log(payload);
-      return state;
+      return {
+        ...state,
+        car: {
+          ...state.car,
+          features: [...state.car.features, payload]
+        },
+        store: state.store.filter(item => item.id !== payload.id),
+        additionalPrice: state.additionalPrice + payload.price
+      };
     case REMOVE_ITEM:
       console.log(payload);
-      return state;
+      return {
+        ...state,
+        car: {
+          ...state.car,
+          features: state.car.features.filter(item => item.id !== payload.id)
+        },
+        store: [...state.store, payload],
+        additionalPrice: state.additionalPrice - payload.price
+      };
     default:
       console.log(state);
       return state;
